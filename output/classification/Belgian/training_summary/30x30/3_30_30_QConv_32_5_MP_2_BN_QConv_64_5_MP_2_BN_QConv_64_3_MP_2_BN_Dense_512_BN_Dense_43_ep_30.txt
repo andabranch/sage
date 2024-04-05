@@ -1,0 +1,42 @@
++sequential_3 stats-----------------------------------------------------------------------------------------+
+| Layer                   Input prec.           Outputs  # 1-bit  # 32-bit  Memory  1-bit MACs  32-bit MACs |
+|                               (bit)                        x 1       x 1    (kB)                          |
++-----------------------------------------------------------------------------------------------------------+
+| quant_conv2d_9                    -  (-1, 26, 26, 32)     2400         0    0.29           0      1622400 |
+| max_pooling2d_9                   -  (-1, 13, 13, 32)        0         0       0           0            0 |
+| batch_normalization_12            -  (-1, 13, 13, 32)        0        64    0.25           0            0 |
+| quant_conv2d_10                   1    (-1, 9, 9, 64)    51200         0    6.25     4147200            0 |
+| max_pooling2d_10                  -    (-1, 4, 4, 64)        0         0       0           0            0 |
+| batch_normalization_13            -    (-1, 4, 4, 64)        0       128    0.50           0            0 |
+| quant_conv2d_11                   1    (-1, 2, 2, 64)    36864         0    4.50      147456            0 |
+| max_pooling2d_11                  -    (-1, 1, 1, 64)        0         0       0           0            0 |
+| batch_normalization_14            -    (-1, 1, 1, 64)        0       128    0.50           0            0 |
+| flatten_3                         -          (-1, 64)        0         0       0           0            0 |
+| quant_dense_6                     1         (-1, 512)    32768         0    4.00       32768            0 |
+| batch_normalization_15            -         (-1, 512)        0      1024    4.00           0            0 |
+| quant_dense_7                     1          (-1, 62)    31744         0    3.88       31744            0 |
+| activation_3                      -          (-1, 62)        0         0       0           ?            ? |
++-----------------------------------------------------------------------------------------------------------+
+| Total                                                   154976      1344   24.17     4359168      1622400 |
++-----------------------------------------------------------------------------------------------------------+
++sequential_3 summary--------------------------+
+| Total params                      156 k      |
+| Trainable params                  155 k      |
+| Non-trainable params              1.34 k     |
+| Model size                        24.17 KiB  |
+| Model size (8-bit FP weights)     20.23 KiB  |
+| Float-32 Equivalent               610.62 KiB |
+| Compression Ratio of Memory       0.04       |
+| Number of MACs                    5.98 M     |
+| Ratio of MACs that are binarized  0.7288     |
++----------------------------------------------+
+
+Test Accuracy:
+0.8797619047619047
+
+Other Test Metrics:
+Precision: 0.9120
+Recall: 0.8798
+F1 Score: 0.8880
+
+Test Execution time: 1.8235212333333335 minutes.
