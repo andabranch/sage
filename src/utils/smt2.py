@@ -38,7 +38,8 @@ def merge_files(file_location1, file_location2, file_output):
     with open(file_location1, 'r') as file1, open(file_location2, 'r') as file2:
         content1 = file1.readlines()
         content2 = file2.readlines()
-
+        if content2 and content2[0].strip().startswith("sat"):
+            content2 = content2[1:]
     merged_content = content1 + content2
 
     with open(file_output, 'w') as outfile:
@@ -93,49 +94,71 @@ def unsat_modify_X(file_path):
 
 import re
 
-def convert_scientific_notation(file_path):
+def convert_scientific_notation(directory):
     pattern = re.compile(r'\(assert \(= Y_(\d+) (-?\d+\.\d+e-?\d+)\)\)')
-    matched_lines = 0
-    total_lines = 0
-    modified_lines = []
+    
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            matched_lines = 0
+            total_lines = 0
+            modified_lines = []
 
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
 
-    for line in lines:
-        total_lines += 1
-        match = pattern.search(line)
-        if match:
-            matched_lines += 1
-            y_index, sci_value = match.groups()
-            value = float(sci_value)
-            if "e" in sci_value or "E" in sci_value:
-                exponent = int(sci_value.split('e')[-1])
-                decimal_value = format(value, f'.{abs(exponent)+1}f').rstrip('0').rstrip('.')
-            else:
-                decimal_value = sci_value
-            modified_line = f"(assert (= Y_{y_index} {decimal_value}))\n"
-            modified_lines.append(modified_line)
-        else:
-            modified_lines.append(line)
+            for line in lines:
+                total_lines += 1
+                match = pattern.search(line)
+                if match:
+                    matched_lines += 1
+                    y_index, sci_value = match.groups()
+                    value = float(sci_value)
+                    if "e" in sci_value or "E" in sci_value:
+                        exponent = int(sci_value.split('e')[-1])
+                        decimal_value = format(value, f'.{abs(exponent)+1}f').rstrip('0').rstrip('.')
+                    else:
+                        decimal_value = sci_value
+                    modified_line = f"(assert (= Y_{y_index} {decimal_value}))\n"
+                    modified_lines.append(modified_line)
+                else:
+                    modified_lines.append(line)
 
-    with open(file_path, 'w') as file:
-        file.writelines(modified_lines)
+            with open(file_path, 'w') as f:
+                f.writelines(modified_lines)
 
-    print(f"Total lines processed: {total_lines}")
-    print(f"Total matched lines: {matched_lines}")
-    print("File has been modified and saved to expand scientific notation for Y variables.")
+            print(f"Processed file: {file_path}")
+            print(f"Total lines processed: {total_lines}")
+            print(f"Total matched lines: {matched_lines}")
+            print("File has been modified and saved to expand scientific notation for Y variables.")
 
 
 
 if __name__ == "__main__":
-    #pt merge la vnnlib+counterexample si output file smt2
-    #merge_files('vnnlib/all-vnnlib/model_64_idx_11985_eps_15.00000.vnnlib', 'vnnlib/alphabeta/3_64_64_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_MP_2_BN_Dense_1024_BN_Dense_43_ep_30_model_64_idx_11985_eps_15.00000.counterexample', 'vnnlib/png/alphabeta/new/model_64_idx_11985_eps_15.00000.smt2')
+    # 1) put together the vnnlib file and counterexample file in the new smt2 file
+    #merge_files('properties/vnnlib/model_64_idx_11985_eps_15.00000.vnnlib', 'output/verification/counterexamples/neuralsat/3_64_64_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_MP_2_BN_Dense_1024_BN_Dense_43_ep_30_model_64_idx_11985_eps_15.00000.counterexample', 'output/verification/testing_counterexample_quality/neuralsat/smt2/model_64_idx_11985_eps_15.00000.smt2')
 
-    #modificat cu adaugare de assert pt valorile X si Y
-    #modify_file('vnnlib/png/alphabeta/new/model_64_idx_11985_eps_15.00000.smt2')
-    verify_smt2_files('vnnlib/png/alphabeta/new', 'vnnlib/png/alphabeta/new/sat_results')
+    # 2) modify withh assert for X and Y values because counterexample file is missing that
+    #modify_file('output/verification/testing_counterexample_quality/neuralsat/smt2/model_64_idx_11985_eps_15.00000.smt2')
+    # go in folder and create in sat_results the output given by z3
+    #verify_smt2_files('output/verification/testing_counterexample_quality/neuralsat/smt2', folder_paths)
+    
+    # 3) if tool is alphabeta then it converts the scientific notation e
+    folder_paths=[
+        'output/verification/testing_counterexample_quality/new_alphabeta/smt2',
+        'output/verification/testing_counterexample_quality/alpha-beta-crown/smt2',
+        'output/verification/testing_counterexample_quality/pyrat/smt2' ]
+    
+    path = 'output/verification/testing_counterexample_quality/pyrat/smt2'
+    
+    # for path in folder_paths:
+    #     if path in folder_paths:
+    #         convert_scientific_notation(path)
+        
+    # 4) the z3 call
+    verify_smt2_files(path, 'output/verification/testing_counterexample_quality/pyrat/sat_results')
 
     
-    #unsat_modify_X('vnnlib/png/alphabeta/new/model_64_idx_11985_eps_15.00000.smt2')
-    #convert_scientific_notation('vnnlib/png/alphabeta/new/model_64_idx_11985_eps_1.00000.smt2')
+    # 5) it's showing us where the first X or Y's value is giving unsatisfiable
+    #unsat_modify_X('output/verification/testing_counterexample_quality/new_neuralsat/smt2/model_30_idx_7040_eps_1.00000.smt2')
+    #convert_scientific_notation('output/verification/testing_counterexample_quality/new_alphabeta/smt2/model_30_idx_7040_eps_1.00000.smt2')

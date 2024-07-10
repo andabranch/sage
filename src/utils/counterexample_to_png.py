@@ -22,15 +22,15 @@ def pixels_to_image(pixel_values, width, height):
         return None
 
 def main():
-    file_path = 'vnnlib/marabou/3_48_48_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_BN_Dense_256_BN_Dense_43_ep_30_model_48_idx_11985_eps_15.00000.counterexample'
-    width, height = 48, 48
+    file_path = 'output/verification/counterexamples/new_alphabeta/30x30/model_30_idx_8258_eps_5.00000.txt'
+    width, height = 30, 30
 
     pixel_values = parse_counterexample(file_path)
     
     if pixel_values:
         image = pixels_to_image(pixel_values, width, height)
         if image:
-            output_path = 'vnnlib/png/marabou/48x48/marabou_counterexample_image15.png'
+            output_path = 'output/verification/img_from_counterexamples/new_alphabeta/test/model_30_idx_8258_eps_5.00000.png'
             image.save(output_path)
             print(f"Image saved to {output_path}")
         else:

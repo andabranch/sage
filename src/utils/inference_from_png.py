@@ -39,12 +39,12 @@ def get_predicted_class_and_probability(prediction):
 
 
 if __name__ == "__main__":
-    model_path = 'output/best/models/onnx/3_30_30_QConv_16_3_QConv_32_2_Dense_43_ep_30.onnx'
+    model_path = 'models/onnx/3_48_48_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_BN_Dense_256_BN_Dense_43_ep_30.onnx'
     #image_ids = ["07040", "08258", "11985"]
-    image_ids = ["alphabeta_counterexample_image1"]
+    image_ids = ["model_48_idx_11985_eps_15.00000"]
 
-    image_dir = "vnnlib/png//64x64"
-    model_input_size = (64, 64) 
+    image_dir = "output/verification/img_from_counterexamples/new_alphabeta/48x48"
+    model_input_size = (48, 48)
 
     model = load_model(model_path)
     images = load_specific_images(image_ids, image_dir, model_input_size)

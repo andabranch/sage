@@ -153,7 +153,6 @@ def build_model(filter1, kernel_size1, filter2, kernel_size2, filter3, kernel_si
         if use_batchnormalization:
             model.add(tf.keras.layers.BatchNormalization(scale=False))
 
-    # Output layer
     model.add(lq.layers.QuantDense(CLASSES, use_bias=False, **kwargs))
     model.add(tf.keras.layers.Activation("softmax"))
 
