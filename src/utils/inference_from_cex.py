@@ -40,9 +40,9 @@ def get_predicted_class_and_probability(prediction):
     return predicted_class, probability
 
 if __name__ == "__main__":
-    model_path = 'models/onnx/3_64_64_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_MP_2_BN_Dense_1024_BN_Dense_43_ep_30.onnx'
-    counterexample_path = 'output/verification/counterexamples/new_alphabeta/64x64/model_64_idx_11985_eps_15.00000.txt'
-    model_input_shape = (64, 64, 3)
+    model_path = 'models/onnx/3_48_48_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_BN_Dense_256_BN_Dense_43_ep_30.onnx'
+    counterexample_path = 'output/verification/counterexamples/pyrat/3_48_48_QConv_32_5_MP_2_BN_QConv_64_5_MP_2_BN_QConv_64_3_BN_Dense_256_BN_Dense_43_ep_30_model_48_idx_11985_eps_15.00000.counterexample'
+    model_input_shape = (48, 48, 3)
     
     model = load_model(model_path)
     smt_data = load_counterexample(counterexample_path) 

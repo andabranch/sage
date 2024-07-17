@@ -73,13 +73,14 @@ def run_architecture():
     dataset = choose_dataset()
     print("I will do the splitting now..")
 
-    dataset_module = importlib.import_module(f"3QConv_{dataset}")
+    dataset_module = importlib.import_module(f"classifiers.3QConv_{dataset}")
 
     data, labels = dataset_module.get_training_dataset()
     X_train, X_validation, y_train, y_validation = dataset_module.split_in_training_n_test(data, labels)
 
     X_test, y_test = dataset_module.get_testing_dataset()
 
+    # choose_neurons - for the dense layer
     neurons = choose_neurons()
 
     if neurons == 0:
