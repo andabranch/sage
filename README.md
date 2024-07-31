@@ -92,6 +92,6 @@ At the end of each script from src/classifiers there is the `main` code which ca
 
 
 ## The tests
-[Folder](https://drive.google.com/drive/folders/1V1hoi4S70QxZqYTWhEB-kXo_ZojoHu6i?usp=drive_link) contains the following verification results:
-- [File](https://docs.google.com/spreadsheets/d/1Xd-27N0P-cWXvk6QhlAgW6nDSljaf5fLwNIL7iop8b4/edit?usp=drive_link) checks if the counterexample given by the verification tool is indeed a valid counterexample. A counterexample is valid if its class as inferred by the BNN model is different than the class of the initial perturbed image. The results are for the counterexamples from the VNN-COMP2023 as well as for newer versions of the tools see paper from [here](https://drive.google.com/file/d/1G-dkY5EIA4_xF-PgPAfqNt9-gNgedf01/view?usp=drive_link).
-- [File](https://docs.google.com/spreadsheets/d/1Xd-27N0P-cWXvk6QhlAgW6nDSljaf5fLwNIL7iop8b4/edit?usp=drive_link) checks if the counterexample given by the verification tool is within the bounds of the corresponding VNN-LIB2023 file. The results are for the counterexamples from the VNN-COMP2023 as well as for newer versions of the tools see paper from [here](https://drive.google.com/file/d/1G-dkY5EIA4_xF-PgPAfqNt9-gNgedf01/view?usp=drive_link).
+[Paper](https://drive.google.com/drive/folders/1V1hoi4S70QxZqYTWhEB-kXo_ZojoHu6i?usp=drive_link) proposes and discusses four research questions which are relevant to in the framework of counterexample generation. The tests acompagning the paper are available 
+[here](https://docs.google.com/spreadsheets/d/1Xd-27N0P-cWXvk6QhlAgW6nDSljaf5fLwNIL7iop8b4/edit?gid=1394756858#gid=1394756858) and 
+[here](https://docs.google.com/spreadsheets/d/12swctGJxLPE8NbQtt9qEsXNGitUYxAWSlT3u49DR4a8/edit?gid=1381765813#gid=1381765813).
